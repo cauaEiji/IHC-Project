@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar — Candidato | ConectaVaga</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="auth-body">
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="../index.html" class="back-btn">← Voltar</a>
+      <a href="../index.html" class="logo">
+        <span class="logo-icon">💼</span>
+        <span class="logo-text">ConectaVaga</span>
+      </a>
+      <div style="width:80px"></div>
+    </div>
+  </header>
+
+  <main class="auth-main">
+    <div class="auth-box">
+
+      <p class="auth-eyebrow">Candidato</p>
+      <h1 class="auth-title">Bem-vindo de volta</h1>
+      <p class="auth-subtitle">Use seu CPF ou e-mail para acessar sua conta</p>
+
+      <div class="card">
+        <div class="alert alert-info mb-3">
+          <span>Não tem conta ainda? <a href="cadastro.html"><strong>Cadastre-se grátis</strong></a> — leva menos de 2 minutos.</span>
+        </div>
+
+        <form id="loginForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="cpfEmail">
+              CPF ou E-mail <span class="form-required">*</span>
+            </label>
+            <input class="form-control" type="text" id="cpfEmail"
+              placeholder="000.000.000-00 ou seu@email.com"
+              required autocomplete="username">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="senha">
+              Senha <span class="form-required">*</span>
+            </label>
+            <input class="form-control" type="password" id="senha"
+              placeholder="Sua senha" required autocomplete="current-password">
+            <p class="form-hint"><a href="#">Esqueci minha senha</a></p>
+          </div>
+
+          <div id="erroLogin" class="alert alert-danger mb-2" style="display:none">
+            <span>CPF/e-mail ou senha incorretos. Tente novamente.</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full btn-lg mt-1">
+            Entrar
+          </button>
+        </form>
+
+        <p class="auth-switch">
+          Não tem conta? <a href="cadastro.html">Criar conta grátis</a>
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2024 ConectaVaga</p>
+  </footer>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const id    = document.getElementById('cpfEmail').value.trim();
+      const senha = document.getElementById('senha').value;
+      if (!id || !senha) {
+        document.getElementById('erroLogin').style.display = 'flex';
+        return;
+      }
+      document.getElementById('erroLogin').style.display = 'none';
+      window.location.href = 'perfil.html';
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seu Perfil de Trabalho | ConectaVaga</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      .perfil-bg { background: #fff; }
+      .pcard { box-shadow: none; }
+      body { font-size: 14px; }
+    }
+  </style>
+</head>
+<body class="perfil-bg">
+
+  <header class="header no-print">
+    <div class="header-inner">
+      <a href="perfil.html" class="back-btn">← Editar</a>
+      <a href="../index.html" class="logo">
+        <span class="logo-icon">💼</span>
+        <span class="logo-text">ConectaVaga</span>
+      </a>
+      <div id="headerUsuario" class="header-user-info">
+        <a href="../index.html" class="btn btn-ghost btn-sm">Sair</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="perfil-central">
+
+    <!-- Banner de status -->
+    <div class="status-ok no-print">
+      <span class="status-ok-dot"></span>
+      <span>Seu perfil está pronto</span>
+    </div>
+
+    <!-- Título -->
+    <div class="pg-titulo">
+      <h1>Seu Perfil de Trabalho</h1>
+      <p>As empresas usam essas informações para encontrar oportunidades para você.</p>
+    </div>
+
+    <!-- Card 1 — Dados principais -->
+    <div class="pcard">
+      <div class="pcard-top">
+        <div class="ic-box ic-azul">DB</div>
+        <h2>Seus dados</h2>
+      </div>
+      <div id="dadosConteudo"></div>
+    </div>
+
+    <!-- Card 2 — Tipo de trabalho -->
+    <div class="pcard">
+      <div class="pcard-top">
+        <div class="ic-box ic-verde">TP</div>
+        <h2>Tipo de trabalho que procura</h2>
+      </div>
+      <div id="areaConteudo"></div>
+    </div>
+
+    <!-- Card 3 — Estudos -->
+    <div class="pcard">
+      <div class="pcard-top">
+        <div class="ic-box ic-roxo">ES</div>
+        <h2>Seus estudos</h2>
+      </div>
+      <div id="estudosConteudo"></div>
+    </div>
+
+    <!-- Card 4 — Trabalhos anteriores -->
+    <div class="pcard">
+      <div class="pcard-top">
+        <div class="ic-box ic-laranja">TR</div>
+        <h2>Trabalhos anteriores</h2>
+      </div>
+      <div id="expConteudo"></div>
+    </div>
+
+    <!-- Card 5 — Habilidades -->
+    <div class="pcard">
+      <div class="pcard-top">
+        <div class="ic-box ic-amarelo">HA</div>
+        <h2>O que você sabe fazer</h2>
+      </div>
+      <div id="habConteudo"></div>
+    </div>
+
+    <!-- Mais opções -->
+    <button class="btn-opcoes no-print" id="btnOpcoes" onclick="toggleOpcoes()">
+      <span>Mais informações</span>
+      <span class="seta-opcoes">&#9662;</span>
+    </button>
+    <div class="painel-opcoes" id="painelOpcoes">
+      <div id="secundarioConteudo"></div>
+      <hr class="form-divider">
+      <button onclick="window.print()" class="btn btn-outline btn-full">
+        Salvar ou imprimir como PDF
+      </button>
+    </div>
+
+    <!-- Ações principais -->
+    <div class="acoes-wrap no-print">
+      <button class="btn btn-primary btn-full btn-lg" onclick="verVagas()">
+        Ver vagas para mim
+      </button>
+      <a href="perfil.html" class="btn btn-outline btn-full btn-lg">
+        Corrigir informações
+      </a>
+    </div>
+
+    <p class="rodape-amor">
+      Pequenos passos ajudam você a chegar ao trabalho certo.
+    </p>
+
+  </main>
+
+  <script>
+    /* ---- Helpers ---- */
+    function g(chave, padrao) {
+      return localStorage.getItem(chave) || (padrao !== undefined ? padrao : '');
+    }
+    function gJSON(chave, padrao) {
+      try { return JSON.parse(localStorage.getItem(chave)) || padrao; }
+      catch { return padrao; }
+    }
+    function el(id) { return document.getElementById(id); }
+
+    function fmtMes(valor) {
+      if (!valor) return 'Atualmente';
+      const p = valor.split('-');
+      const m = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+      return m[parseInt(p[1], 10) - 1] + '/' + p[0];
+    }
+
+    function dlHtml(label, valor) {
+      return `
+        <div class="dl">
+          <div class="dl-c">
+            <div class="dl-label">${label}</div>
+            <div class="dl-valor">${valor}</div>
+          </div>
+        </div>`;
+    }
+
+    /* ---- Renderizações ---- */
+    function renderHeader() {
+      const nome     = g('cv_nome', 'Usuário');
+      const primeiro = nome.split(' ')[0];
+      el('headerUsuario').innerHTML =
+        `<span style="color:rgba(255,255,255,0.85);font-size:0.875rem;">Olá, <strong>${primeiro}</strong></span>
+         <a href="../index.html" class="btn btn-ghost btn-sm">Sair</a>`;
+    }
+
+    function renderDados() {
+      const nome   = g('cv_nome',     'Maria da Silva');
+      const tel    = g('cv_telefone', '(11) 99999-0000');
+      const mail   = g('cv_email',    '');
+      const cid    = g('cv_cidade',   'São Paulo');
+      const est    = g('cv_estado',   'SP');
+      const bairro = g('cv_bairro',   '');
+      const local  = [bairro, cid, est].filter(Boolean).join(', ');
+
+      let html = dlHtml('Nome', nome);
+      if (tel)  html += dlHtml('Telefone / WhatsApp', tel);
+      if (mail) html += dlHtml('E-mail', mail);
+      html += dlHtml('Cidade', local || 'Não informado');
+
+      el('dadosConteudo').innerHTML = html;
+    }
+
+    function renderArea() {
+      const area = g('cv_area', '');
+      if (!area) {
+        el('areaConteudo').innerHTML = '<p class="msg-vazia">Não informado.</p>';
+        return;
+      }
+      el('areaConteudo').innerHTML =
+        `<div class="tags-row"><span class="tag-chip tag-chip-destaque">${area}</span></div>`;
+    }
+
+    function renderEstudos() {
+      const nivel = g('cv_escolaridade', '');
+      const inst  = g('cv_escola', '');
+      if (!nivel) {
+        el('estudosConteudo').innerHTML = '<p class="msg-vazia">Não informado.</p>';
+        return;
+      }
+      el('estudosConteudo').innerHTML = `
+        <div class="escol-row">
+          <div class="escol-badge">ESC</div>
+          <div>
+            <div class="escol-nivel">${nivel}</div>
+            ${inst ? `<div class="escol-inst">${inst}</div>` : ''}
+          </div>
+        </div>`;
+    }
+
+    function renderExperiencias() {
+      const lista = gJSON('cv_experiencias', []);
+      if (lista.length === 0) {
+        el('expConteudo').innerHTML = `
+          <div class="msg-sem-exp">
+            <span class="msg-sem-exp-i">OK</span>
+            <p class="msg-sem-exp-t">
+              Você ainda pode se candidatar para vagas que não exigem experiência.
+              Muitas empresas valorizam dedicação e vontade de aprender.
+            </p>
+          </div>`;
+        return;
+      }
+      el('expConteudo').innerHTML = lista.map(function(exp) {
+        const periodo = fmtMes(exp.inicio) + ' – ' + fmtMes(exp.fim);
+        return `
+          <div class="exp-item">
+            <div class="exp-cargo">${exp.cargo}</div>
+            <div class="exp-sub">${[exp.empresa, periodo].filter(Boolean).join('  ·  ')}</div>
+            ${exp.desc ? `<div class="exp-desc-tx">${exp.desc}</div>` : ''}
+          </div>`;
+      }).join('');
+    }
+
+    function renderHabilidades() {
+      const hab = g('cv_habilidades', '');
+      if (!hab) {
+        el('habConteudo').innerHTML = '<p class="msg-vazia">Nenhuma habilidade informada ainda.</p>';
+        return;
+      }
+      const chips = hab.split(',')
+        .map(function(h) { return h.trim(); })
+        .filter(Boolean)
+        .map(function(h) { return `<span class="tag-chip">${h}</span>`; })
+        .join('');
+      el('habConteudo').innerHTML = `<div class="tags-row">${chips}</div>`;
+    }
+
+    function renderSecundario() {
+      const disp   = g('cv_disponibilidade', '');
+      const sal    = g('cv_salario', '');
+      const cursos = g('cv_cursos', '');
+      let html = '';
+
+      if (disp) html += dlHtml('Horário disponível', disp);
+      if (sal)  html += dlHtml('Pretensão salarial', sal);
+
+      if (cursos) {
+        const itens = cursos.split('\n')
+          .map(function(c) { return c.trim(); }).filter(Boolean)
+          .map(function(c) { return `<div class="dl-valor" style="padding:3px 0">&#8226; ${c}</div>`; })
+          .join('');
+        html += `<div style="margin-top:12px"><div class="sec-label">Cursos e certificados</div>${itens}</div>`;
+      }
+
+      el('secundarioConteudo').innerHTML = html ||
+        '<p class="msg-vazia">Sem informações adicionais.</p>';
+    }
+
+    /* ---- Interações ---- */
+    function toggleOpcoes() {
+      const btn    = el('btnOpcoes');
+      const painel = el('painelOpcoes');
+      const aberto = btn.classList.toggle('aberto');
+      painel.classList.toggle('visivel', aberto);
+    }
+
+    function verVagas() {
+      alert('Em breve você poderá ver vagas compatíveis com o seu perfil!');
+    }
+
+    /* ---- Init ---- */
+    document.addEventListener('DOMContentLoaded', function() {
+      renderHeader();
+      renderDados();
+      renderArea();
+      renderEstudos();
+      renderExperiencias();
+      renderHabilidades();
+      renderSecundario();
+    });
+  </script>
+
+</body>
+</html>

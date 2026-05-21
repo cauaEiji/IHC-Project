@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar conta — Candidato | ConectaVaga</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="auth-body">
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="../index.html" class="back-btn">← Voltar</a>
+      <a href="../index.html" class="logo">
+        <span class="logo-icon">💼</span>
+        <span class="logo-text">ConectaVaga</span>
+      </a>
+      <div style="width:80px"></div>
+    </div>
+  </header>
+
+  <main class="auth-main">
+    <div class="auth-box" style="max-width:520px">
+
+      <p class="auth-eyebrow">Candidato</p>
+      <h1 class="auth-title">Criar minha conta</h1>
+      <p class="auth-subtitle">Gratuito. Leva menos de 2 minutos.</p>
+
+      <div class="progress-bar mb-3">
+        <div class="step-wrap">
+          <div class="step-dot active">1</div>
+          <div class="step-name active">Cadastro</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-wrap">
+          <div class="step-dot">2</div>
+          <div class="step-name">Login</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-wrap">
+          <div class="step-dot">3</div>
+          <div class="step-name">Perfil</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-wrap">
+          <div class="step-dot">4</div>
+          <div class="step-name">Currículo</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <form id="cadastroForm" novalidate>
+
+          <p class="form-section-title">Dados pessoais</p>
+
+          <div class="form-group">
+            <label class="form-label" for="nome">
+              Nome completo <span class="form-required">*</span>
+            </label>
+            <input class="form-control" type="text" id="nome"
+              placeholder="Seu nome completo" required autocomplete="name">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="cpf">
+                CPF <span class="form-required">*</span>
+              </label>
+              <input class="form-control" type="text" id="cpf"
+                placeholder="000.000.000-00" required maxlength="14">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="nascimento">
+                Data de nascimento <span class="form-required">*</span>
+              </label>
+              <input class="form-control" type="date" id="nascimento" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="telefone">
+              Celular / WhatsApp <span class="form-required">*</span>
+            </label>
+            <input class="form-control" type="tel" id="telefone"
+              placeholder="(00) 00000-0000" required maxlength="15">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">E-mail</label>
+            <input class="form-control" type="email" id="email"
+              placeholder="seu@email.com" autocomplete="email">
+            <p class="form-hint">Opcional — ajuda a recuperar sua senha.</p>
+          </div>
+
+          <hr class="form-divider">
+          <p class="form-section-title">Criar senha</p>
+
+          <div class="form-group">
+            <label class="form-label" for="senha">
+              Senha <span class="form-required">*</span>
+            </label>
+            <input class="form-control" type="password" id="senha"
+              placeholder="Mínimo 6 caracteres" required minlength="6"
+              autocomplete="new-password">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="confirmarSenha">
+              Confirmar senha <span class="form-required">*</span>
+            </label>
+            <input class="form-control" type="password" id="confirmarSenha"
+              placeholder="Repita sua senha" required autocomplete="new-password">
+          </div>
+
+          <div id="erroSenha"  class="alert alert-danger" style="display:none">
+            <span>As senhas não são iguais. Verifique e tente novamente.</span>
+          </div>
+          <div id="erroCampos" class="alert alert-danger mt-2" style="display:none">
+            <span>Preencha todos os campos obrigatórios (marcados com *).</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full btn-lg mt-3">
+            Criar minha conta
+          </button>
+        </form>
+
+        <p class="auth-switch">
+          Já tem conta? <a href="login.html">Entrar</a>
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2024 ConectaVaga</p>
+  </footer>
+
+  <script>
+    document.getElementById('cpf').addEventListener('input', function() {
+      let v = this.value.replace(/\D/g, '').slice(0, 11);
+      v = v.replace(/(\d{3})(\d)/, '$1.$2');
+      v = v.replace(/(\d{3})(\d)/, '$1.$2');
+      v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      this.value = v;
+    });
+
+    document.getElementById('telefone').addEventListener('input', function() {
+      let v = this.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length <= 10) {
+        v = v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+      } else {
+        v = v.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+      }
+      this.value = v.trim().replace(/-$/, '');
+    });
+
+    document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nome    = document.getElementById('nome').value.trim();
+      const cpf     = document.getElementById('cpf').value.trim();
+      const nasc    = document.getElementById('nascimento').value;
+      const tel     = document.getElementById('telefone').value.trim();
+      const senha   = document.getElementById('senha').value;
+      const confirm = document.getElementById('confirmarSenha').value;
+
+      document.getElementById('erroSenha').style.display  = 'none';
+      document.getElementById('erroCampos').style.display = 'none';
+
+      if (!nome || !cpf || !nasc || !tel || !senha || !confirm) {
+        document.getElementById('erroCampos').style.display = 'flex';
+        return;
+      }
+      if (senha !== confirm) {
+        document.getElementById('erroSenha').style.display = 'flex';
+        return;
+      }
+
+      localStorage.setItem('cv_nome',     nome);
+      localStorage.setItem('cv_telefone', tel);
+      localStorage.setItem('cv_email',    document.getElementById('email').value.trim());
+
+      window.location.href = 'login.html';
+    });
+  </script>
+
+</body>
+</html>
