@@ -12,7 +12,7 @@
     <div class="header-inner">
       <a href="../index.html" class="back-btn">← Início</a>
       <a href="../index.html" class="logo">
-        <span class="logo-icon">💼</span>
+        <span class="logo-icon">&#9632;</span>
         <span class="logo-text">ConectaVaga</span>
       </a>
       <div class="header-user-info">
@@ -272,15 +272,69 @@
 
   <script>
     window.addEventListener('DOMContentLoaded', function() {
-      const nome = localStorage.getItem('cv_nome') || '';
-      const tel  = localStorage.getItem('cv_telefone') || '';
-      const mail = localStorage.getItem('cv_email') || '';
+      var nome   = localStorage.getItem('cv_nome')     || '';
+      var tel    = localStorage.getItem('cv_telefone') || '';
+      var mail   = localStorage.getItem('cv_email')    || '';
+      var cidade = localStorage.getItem('cv_cidade')   || '';
+      var estado = localStorage.getItem('cv_estado')   || '';
+      var bairro = localStorage.getItem('cv_bairro')   || '';
+      var esc    = localStorage.getItem('cv_escolaridade') || '';
+      var escola = localStorage.getItem('cv_escola')   || '';
+      var hab    = localStorage.getItem('cv_habilidades') || '';
+      var cursos = localStorage.getItem('cv_cursos')   || '';
+      var area   = localStorage.getItem('cv_area')     || '';
+      var obj    = localStorage.getItem('cv_objetivo') || '';
+      var disp   = localStorage.getItem('cv_disponibilidade') || '';
+      var sal    = localStorage.getItem('cv_salario')  || '';
+
       if (nome) {
         document.getElementById('nome').value = nome;
         document.getElementById('headerNome').textContent = 'Olá, ' + nome.split(' ')[0] + '!';
       }
-      if (tel)  document.getElementById('telefone').value = tel;
-      if (mail) document.getElementById('email').value    = mail;
+      if (tel)    document.getElementById('telefone').value   = tel;
+      if (mail)   document.getElementById('email').value      = mail;
+      if (cidade) document.getElementById('cidade').value     = cidade;
+      if (estado) document.getElementById('estado').value     = estado;
+      if (bairro) document.getElementById('bairro').value     = bairro;
+      if (esc)    document.getElementById('escolaridade').value = esc;
+      if (escola) document.getElementById('escola').value     = escola;
+      if (hab)    document.getElementById('habilidades').value = hab;
+      if (cursos) document.getElementById('cursos').value     = cursos;
+      if (area)   document.getElementById('area').value       = area;
+      if (obj)    document.getElementById('objetivo').value   = obj;
+      if (disp)   document.getElementById('disponibilidade').value = disp;
+      if (sal)    document.getElementById('salario').value    = sal;
+
+      var expsJSON = localStorage.getItem('cv_experiencias');
+      if (expsJSON) {
+        try {
+          var exps = JSON.parse(expsJSON);
+          if (exps && exps.length === 0) {
+            var cbSemExp = document.getElementById('semExperiencia');
+            cbSemExp.checked = true;
+            toggleExperiencia(cbSemExp);
+          } else if (exps && exps.length > 0) {
+            var primeiro = document.querySelector('#experienciasContainer .exp-block');
+            if (primeiro) {
+              primeiro.querySelector('[name=cargo]').value    = exps[0].cargo   || '';
+              primeiro.querySelector('[name=empresa]').value  = exps[0].empresa || '';
+              primeiro.querySelector('[name=inicio]').value   = exps[0].inicio  || '';
+              primeiro.querySelector('[name=fim]').value      = exps[0].fim     || '';
+              primeiro.querySelector('[name=descricao]').value = exps[0].desc   || '';
+            }
+            for (var i = 1; i < exps.length; i++) {
+              adicionarExperiencia();
+              var blocos = document.querySelectorAll('#experienciasContainer .exp-block');
+              var ultimo = blocos[blocos.length - 1];
+              ultimo.querySelector('[name=cargo]').value    = exps[i].cargo   || '';
+              ultimo.querySelector('[name=empresa]').value  = exps[i].empresa || '';
+              ultimo.querySelector('[name=inicio]').value   = exps[i].inicio  || '';
+              ultimo.querySelector('[name=fim]').value      = exps[i].fim     || '';
+              ultimo.querySelector('[name=descricao]').value = exps[i].desc   || '';
+            }
+          }
+        } catch(e) {}
+      }
     });
 
     function toggleExperiencia(cb) {

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuperar Senha | ConectaVaga</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="auth-body">
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="login.html" class="back-btn">← Voltar</a>
+      <a href="../index.html" class="logo">
+        <span class="logo-icon">&#9632;</span>
+        <span class="logo-text">ConectaVaga</span>
+      </a>
+      <div style="width:80px"></div>
+    </div>
+  </header>
+
+  <main class="auth-main">
+    <div class="auth-box">
+
+      <p class="auth-eyebrow">Candidato</p>
+      <h1 class="auth-title">Recuperar senha</h1>
+      <p class="auth-subtitle">Informe seu e-mail e enviaremos um link para você redefinir sua senha.</p>
+
+      <!-- Formulário -->
+      <div class="card" id="cardForm">
+        <form id="recuperarForm" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="email">
+              Seu e-mail <span class="form-required">*</span>
+            </label>
+            <input class="form-control" type="email" id="email"
+              placeholder="seu@email.com" required autocomplete="email">
+          </div>
+
+          <div id="erroEmail" class="alert alert-danger mb-2" style="display:none;">
+            <span>Por favor, informe um e-mail válido.</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full btn-lg mt-1">
+            Enviar link de recuperação
+          </button>
+        </form>
+
+        <p class="auth-switch">
+          Lembrou a senha? <a href="login.html">Entrar</a>
+        </p>
+      </div>
+
+      <!-- Tela de sucesso -->
+      <div class="card" id="cardSucesso" style="display:none;text-align:center;padding:32px 24px;">
+        <div style="width:56px;height:56px;border-radius:14px;background:#DCFCE7;color:#15803D;
+          display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:800;
+          margin:0 auto 16px;">OK</div>
+        <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:8px;">E-mail enviado!</h2>
+        <p class="text-muted" style="margin-bottom:20px;">
+          Se esse e-mail estiver cadastrado, você receberá um link para redefinir sua senha em instantes.
+          Verifique também sua caixa de spam.
+        </p>
+        <a href="login.html" class="btn btn-primary btn-full">Voltar ao login</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2024 ConectaVaga</p>
+  </footer>
+
+  <script>
+    document.getElementById('recuperarForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = document.getElementById('email').value.trim();
+      var erro  = document.getElementById('erroEmail');
+
+      if (!email || email.indexOf('@') === -1) {
+        erro.style.display = 'flex';
+        return;
+      }
+
+      erro.style.display = 'none';
+      document.getElementById('cardForm').style.display    = 'none';
+      document.getElementById('cardSucesso').style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>
