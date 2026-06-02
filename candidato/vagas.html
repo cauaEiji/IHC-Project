@@ -72,6 +72,7 @@
         <span class="logo-text">ConectaVaga</span>
       </a>
       <div class="header-user-info">
+        <a href="curriculo.html" class="btn btn-ghost btn-sm">Análise com IA</a>
         <a href="candidaturas.html" class="btn btn-ghost btn-sm">Minhas candidaturas</a>
         <a href="../index.html" class="btn btn-ghost btn-sm">Sair</a>
       </div>
@@ -421,12 +422,29 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('cv_curriculo_ok')) {
+        window.location.href = 'curriculo.html';
+        return;
+      }
+
       var areaUsuario = localStorage.getItem('cv_area') || '';
+      var semExp      = localStorage.getItem('cv_semexp') === '1';
+      var nomeUsuario = localStorage.getItem('cv_nome') || '';
+
+      if (nomeUsuario) {
+        var primeiroNome = nomeUsuario.split(' ')[0];
+        document.getElementById('filtroInfo').textContent = 'Olá, ' + primeiroNome + '! Veja as vagas selecionadas para você:';
+      }
+
       if (areaUsuario) {
         var sel = document.getElementById('filtroArea');
         for (var i = 0; i < sel.options.length; i++) {
           if (sel.options[i].value === areaUsuario) { sel.selectedIndex = i; break; }
         }
+      }
+
+      if (semExp) {
+        document.getElementById('filtroSemExp').checked = true;
       }
 
       document.getElementById('filtroArea').addEventListener('change', renderVagas);

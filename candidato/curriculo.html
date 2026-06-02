@@ -3,127 +3,620 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Currículo com IA — Em breve | ConectaVaga</title>
+  <title>Monte seu Currículo | ConectaVaga</title>
   <link rel="stylesheet" href="../css/style.css">
+  <script src="../config.js"></script>
   <style>
-    .em-breve-icon {
-      width: 72px;
-      height: 72px;
-      border-radius: 20px;
+    html, body { height: 100%; }
+
+    .chat-page {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #F0EEF8;
+    }
+
+    /* Header */
+    .chat-header {
       background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      color: #fff;
+      padding: 0 20px;
+      height: 64px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      font-weight: 800;
-      letter-spacing: 0.05em;
-      margin: 0 auto 16px;
-    }
-    .badge-breve {
-      background: #EDE9FE;
-      color: #7C3AED;
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 4px 14px;
-      border-radius: 99px;
-      display: inline-block;
-      margin-bottom: 16px;
-    }
-    .step-ia {
-      display: flex;
       gap: 14px;
-      align-items: flex-start;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
     }
-    .step-ia-num {
-      background: #EDE9FE;
-      color: #7C3AED;
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 0.95rem;
+    .chat-header-back {
+      color: rgba(255,255,255,0.85);
+      font-size: 1.1rem;
+      text-decoration: none;
+      padding: 6px;
+    }
+    .chat-header-back:hover { color: #fff; text-decoration: none; }
+    .chat-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.22);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.8rem; color: #fff;
       flex-shrink: 0;
     }
-    .step-ia-titulo { font-weight: 700; font-size: 0.92rem; margin-bottom: 2px; }
-    .step-ia-sub { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; }
+    .chat-header-info { flex: 1; }
+    .chat-header-nome { font-weight: 700; color: #fff; font-size: 1rem; line-height: 1.2; }
+    .chat-header-sub  { font-size: 0.78rem; color: rgba(255,255,255,0.75); }
+
+    /* Chat area */
+    .chat-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Mensagens */
+    .msg-wrap {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      max-width: 85%;
+    }
+    .msg-wrap.ia  { align-self: flex-start; }
+    .msg-wrap.eu  { align-self: flex-end; flex-direction: row-reverse; }
+
+    .msg-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: #fff; font-size: 0.65rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-bottom: 2px;
+    }
+
+    .msg-balao {
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 1rem;
+      line-height: 1.55;
+      max-width: 100%;
+    }
+    .msg-wrap.ia .msg-balao {
+      background: #fff;
+      color: #0F172A;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.09);
+    }
+    .msg-wrap.eu .msg-balao {
+      background: #4F46E5;
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    /* Digitando */
+    .digitando {
+      display: flex; gap: 5px; align-items: center;
+      padding: 14px 16px;
+    }
+    .digitando span {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #A5B4FC;
+      animation: bounce 1.2s infinite;
+    }
+    .digitando span:nth-child(2) { animation-delay: 0.2s; }
+    .digitando span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30%            { transform: translateY(-7px); }
+    }
+
+    /* Input */
+    .chat-input-area {
+      background: #fff;
+      border-top: 1px solid #E2E8F0;
+      padding: 12px 16px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .chat-input {
+      flex: 1;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 24px;
+      padding: 12px 18px;
+      font-size: 1rem;
+      font-family: var(--font);
+      color: #0F172A;
+      outline: none;
+      resize: none;
+      max-height: 100px;
+      overflow-y: auto;
+      line-height: 1.4;
+      transition: border-color 0.15s;
+    }
+    .chat-input:focus { border-color: #7C3AED; }
+    .chat-input:disabled { background: #F8FAFC; color: #94A3B8; }
+    .chat-input::placeholder { color: #94A3B8; }
+
+    .btn-enviar {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: opacity 0.15s, transform 0.1s;
+      font-size: 1.2rem;
+    }
+    .btn-enviar:hover  { opacity: 0.9; transform: scale(1.05); }
+    .btn-enviar:active { transform: scale(0.95); }
+    .btn-enviar:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .btn-enviar svg { fill: #fff; width: 22px; height: 22px; }
+
+    /* Tela de currículo gerado */
+    .curriculo-screen {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 16px 40px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
+    .curriculo-box {
+      width: 100%;
+      max-width: 520px;
+    }
+    .curriculo-ok {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .curriculo-ok-icon {
+      width: 64px; height: 64px; border-radius: 20px;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: #fff; font-size: 1rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .curriculo-ok h2 {
+      font-size: 1.5rem; font-weight: 800;
+      letter-spacing: -0.02em; margin-bottom: 6px;
+    }
+    .curriculo-ok p { font-size: 0.9rem; color: var(--text-muted); }
+
+    .curriculo-secao {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 12px;
+    }
+    .curriculo-secao-label {
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.07em;
+      color: #7C3AED; margin-bottom: 8px;
+    }
+    .curriculo-secao-texto {
+      font-size: 1rem; line-height: 1.6; color: #0F172A;
+    }
+    .curriculo-nome-grande {
+      font-size: 1.3rem; font-weight: 800; color: #0F172A;
+    }
+
+    .curriculo-acoes {
+      display: flex; flex-direction: column; gap: 10px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .msg-wrap { max-width: 92%; }
+      .msg-balao { font-size: 0.975rem; }
+    }
+
+    /* Tela de identificação */
+    .id-screen {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px;
+    }
+    .id-box {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 24px rgba(79,70,229,0.10);
+      text-align: center;
+    }
+    .id-box-icon {
+      width: 60px; height: 60px; border-radius: 16px;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: #fff; font-weight: 800; font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 18px;
+    }
+    .id-box h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; }
+    .id-box p  { font-size: 0.9rem; color: #64748B; margin-bottom: 22px; line-height: 1.5; }
+    .id-input {
+      width: 100%; border: 1.5px solid #E2E8F0; border-radius: 12px;
+      padding: 13px 16px; font-size: 1rem; font-family: inherit;
+      color: #0F172A; outline: none; box-sizing: border-box;
+      margin-bottom: 14px; transition: border-color 0.15s;
+    }
+    .id-input:focus { border-color: #7C3AED; }
   </style>
 </head>
-<body class="auth-body">
+<body>
+<div class="chat-page">
 
-  <header class="header">
-    <div class="header-inner">
-      <a href="vagas.html" class="back-btn">← Ver vagas</a>
-      <a href="../index.html" class="logo">
-        <span class="logo-icon">💼</span>
-        <span class="logo-text">ConectaVaga</span>
-      </a>
-      <div style="width:80px"></div>
+  <!-- Header -->
+  <header class="chat-header">
+    <a href="../index.html" class="chat-header-back">←</a>
+    <div class="chat-avatar">IA</div>
+    <div class="chat-header-info">
+      <div class="chat-header-nome">Assistente ConectaVaga</div>
+      <div class="chat-header-sub" id="headerSub">Vou te ajudar a montar seu currículo</div>
     </div>
   </header>
 
-  <main class="auth-main">
-    <div class="auth-box" style="max-width:520px;">
+  <!-- Tela de identificação -->
+  <div class="id-screen" id="telaId">
+    <div class="id-box">
+      <div class="id-box-icon">CV</div>
+      <h2>Olá! Vamos começar?</h2>
+      <p>Informe seu e-mail ou CPF para continuarmos.<br>Se já preencheu o currículo antes, vamos te levar direto às vagas.</p>
+      <input
+        type="text"
+        id="campoId"
+        class="id-input"
+        placeholder="seu@email.com ou 000.000.000-00"
+        onkeydown="if(event.key==='Enter') entrar()"
+      />
+      <button class="btn btn-primary btn-full" onclick="entrar()">Continuar</button>
+    </div>
+  </div>
 
-      <div class="em-breve-icon">IA</div>
+  <!-- Tela de chat -->
+  <div class="chat-area" id="chatArea" style="display:none;"></div>
 
-      <div style="text-align:center;">
-        <span class="badge-breve">Em breve</span>
+  <!-- Input -->
+  <div class="chat-input-area" id="inputArea" style="display:none;">
+    <textarea
+      id="campoTexto"
+      class="chat-input"
+      placeholder="Digite sua resposta aqui..."
+      rows="1"
+      onkeydown="teclaEnter(event)"
+      oninput="ajustarAltura(this)"
+    ></textarea>
+    <button class="btn-enviar" id="btnEnviar" onclick="enviar()" title="Enviar">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Tela do currículo gerado -->
+  <div class="curriculo-screen" id="curriculoScreen">
+    <div class="curriculo-box">
+
+      <div class="curriculo-ok">
+        <div class="curriculo-ok-icon">OK</div>
+        <h2>Currículo pronto!</h2>
+        <p>Criado com base nas suas respostas. Você pode usá-lo para se candidatar às vagas.</p>
       </div>
 
-      <h1 class="auth-title" style="text-align:center;">Currículo gerado por IA</h1>
-      <p class="auth-subtitle" style="text-align:center;">
-        Responda algumas perguntas simples e a inteligência artificial do Gemini
-        monta seu currículo profissional automaticamente — sem precisar digitar nada complicado.
-      </p>
-
-      <div class="card mb-3">
-        <p class="form-section-title">Como vai funcionar</p>
-        <div style="display:flex;flex-direction:column;gap:16px;">
-
-          <div class="step-ia">
-            <div class="step-ia-num">1</div>
-            <div>
-              <div class="step-ia-titulo">Você responde perguntas simples</div>
-              <div class="step-ia-sub">Seu nome, área de interesse, experiências breves e o que você sabe fazer.</div>
-            </div>
-          </div>
-
-          <div class="step-ia">
-            <div class="step-ia-num">2</div>
-            <div>
-              <div class="step-ia-titulo">O Gemini processa suas respostas</div>
-              <div class="step-ia-sub">A IA organiza tudo em linguagem profissional, clara e adequada para recrutadores.</div>
-            </div>
-          </div>
-
-          <div class="step-ia">
-            <div class="step-ia-num">3</div>
-            <div>
-              <div class="step-ia-titulo">Seu currículo está pronto</div>
-              <div class="step-ia-sub">Baixe em PDF ou use diretamente ao se candidatar às vagas dentro do aplicativo.</div>
-            </div>
-          </div>
-
-        </div>
+      <div class="curriculo-secao">
+        <div class="curriculo-secao-label">Nome</div>
+        <div class="curriculo-nome-grande" id="cvNome"></div>
       </div>
 
-      <a href="vagas.html" class="btn btn-primary btn-full btn-lg">
-        Ver vagas disponíveis
-      </a>
-      <p class="auth-switch" style="text-align:center;margin-top:14px;">
-        Esta função estará disponível em breve.
-      </p>
+      <div class="curriculo-secao">
+        <div class="curriculo-secao-label">Área de interesse</div>
+        <div class="curriculo-secao-texto" id="cvArea"></div>
+      </div>
+
+      <div class="curriculo-secao">
+        <div class="curriculo-secao-label">Experiência</div>
+        <div class="curriculo-secao-texto" id="cvExperiencia"></div>
+      </div>
+
+      <div class="curriculo-secao">
+        <div class="curriculo-secao-label">Habilidades</div>
+        <div class="curriculo-secao-texto" id="cvHabilidades"></div>
+      </div>
+
+      <div class="curriculo-secao" style="border-left: 3px solid #7C3AED;">
+        <div class="curriculo-secao-label">Perfil profissional (gerado pela IA)</div>
+        <div class="curriculo-secao-texto" id="cvPerfil"></div>
+      </div>
+
+      <div class="curriculo-acoes">
+        <a href="vagas.html" class="btn btn-primary btn-full btn-lg">
+          Ver vagas para mim
+        </a>
+        <button class="btn btn-outline btn-full" onclick="recomecar()">
+          Montar de novo
+        </button>
+      </div>
 
     </div>
-  </main>
+  </div>
 
-  <footer class="footer">
-    <p>© 2024 ConectaVaga</p>
-  </footer>
+</div>
+
+<script type="module">
+  import { GoogleGenAI } from 'https://esm.run/@google/genai';
+
+  var ai = new GoogleGenAI({ apiKey: window.GEMINI_API_KEY });
+
+  var AREAS_VALIDAS = [
+    'Vendas e Comércio', 'Administrativo', 'Alimentação e Gastronomia',
+    'Limpeza e Conservação', 'Logística e Transporte', 'Construção Civil',
+    'Saúde e Cuidados', 'Educação', 'Segurança', 'Tecnologia',
+    'Indústria e Produção', 'Serviços Gerais'
+  ];
+
+  var PROMPT_SISTEMA =
+    'Você é um assistente muito simpático e paciente do ConectaVaga, um site de empregos brasileiro. ' +
+    'Sua missão é ajudar pessoas com pouca experiência digital a montar um mini-currículo, ' +
+    'fazendo perguntas simples e objetivas, UMA DE CADA VEZ, como uma conversa de WhatsApp. ' +
+    '\n\nRegras importantes:\n' +
+    '- Use linguagem muito simples, como se fosse um amigo próximo\n' +
+    '- Faça APENAS UMA pergunta por mensagem\n' +
+    '- Seja encorajador, use frases como "Ótimo!", "Muito bem!", "Perfeito!"\n' +
+    '- Evite palavras difíceis ou técnicas\n' +
+    '- Colete exatamente estas 4 informações, nesta ordem:\n' +
+    '  1. Nome completo\n' +
+    '  2. Área de trabalho desejada (dê exemplos: vendas, limpeza, cozinha, escritório, etc.)\n' +
+    '  3. Se tem experiência de trabalho anterior — se sim, peça para contar brevemente; se não, registre como sem experiência\n' +
+    '  4. O que sabe fazer bem (habilidades, pontos fortes)\n' +
+    '\nApós receber as 4 informações, responda APENAS com este JSON seguido de [CURRICULO_PRONTO], sem mais nada:\n' +
+    '{"nome":"...","area":"UMA das opções: Vendas e Comércio | Administrativo | Alimentação e Gastronomia | Limpeza e Conservação | Logística e Transporte | Construção Civil | Saúde e Cuidados | Educação | Segurança | Tecnologia | Indústria e Produção | Serviços Gerais","semExperiencia":true ou false,"experiencia":"...","habilidades":"...","perfil":"frase de 2 linhas em tom profissional"}\n' +
+    '[CURRICULO_PRONTO]';
+
+  var historico = [];
+  var bloqueado = false;
+  var usuarioId = '';
+
+  function criarMensagemIA(texto) {
+    var wrap = document.createElement('div');
+    wrap.className = 'msg-wrap ia';
+    wrap.innerHTML =
+      '<div class="msg-avatar">IA</div>' +
+      '<div class="msg-balao">' + texto + '</div>';
+    return wrap;
+  }
+
+  function criarMensagemUsuario(texto) {
+    var wrap = document.createElement('div');
+    wrap.className = 'msg-wrap eu';
+    wrap.innerHTML = '<div class="msg-balao">' + texto + '</div>';
+    return wrap;
+  }
+
+  function criarDigitando() {
+    var wrap = document.createElement('div');
+    wrap.className = 'msg-wrap ia';
+    wrap.id = 'digitando';
+    wrap.innerHTML =
+      '<div class="msg-avatar">IA</div>' +
+      '<div class="msg-balao digitando"><span></span><span></span><span></span></div>';
+    return wrap;
+  }
+
+  function scrollBaixo() {
+    var area = document.getElementById('chatArea');
+    area.scrollTop = area.scrollHeight;
+  }
+
+  function adicionarMensagemIA(texto) {
+    var area = document.getElementById('chatArea');
+    area.appendChild(criarMensagemIA(texto));
+    scrollBaixo();
+  }
+
+  function removerDigitando() {
+    var el = document.getElementById('digitando');
+    if (el) el.remove();
+  }
+
+  function bloquearInput(sim) {
+    bloqueado = sim;
+    document.getElementById('campoTexto').disabled = sim;
+    document.getElementById('btnEnviar').disabled = sim;
+  }
+
+  function entrar() {
+    var id = document.getElementById('campoId').value.trim();
+    if (!id) return;
+    usuarioId = id;
+
+    document.getElementById('telaId').style.display = 'none';
+
+    var dados = JSON.parse(localStorage.getItem('cv_user_' + id) || 'null');
+    if (dados && dados.curriculo_ok) {
+      localStorage.setItem('cv_area', dados.area || '');
+      localStorage.setItem('cv_semexp', dados.semExperiencia ? '1' : '0');
+      localStorage.setItem('cv_nome', dados.nome || '');
+      localStorage.setItem('cv_curriculo_ok', '1');
+      mostrarCurriculo(dados);
+      return;
+    }
+
+    document.getElementById('chatArea').style.display = 'flex';
+    document.getElementById('inputArea').style.display = 'flex';
+    iniciarConversa();
+  }
+
+  function ajustarAltura(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+  }
+
+  function teclaEnter(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      enviar();
+    }
+  }
+
+  async function enviar() {
+    if (bloqueado) return;
+    var campo = document.getElementById('campoTexto');
+    var texto = campo.value.trim();
+    if (!texto) return;
+
+    campo.value = '';
+    campo.style.height = 'auto';
+
+    var area = document.getElementById('chatArea');
+    area.appendChild(criarMensagemUsuario(texto));
+    scrollBaixo();
+
+    historico.push({ role: 'user', parts: [{ text: texto }] });
+
+    bloquearInput(true);
+    area.appendChild(criarDigitando());
+    scrollBaixo();
+
+    try {
+      var resposta = await chamarGemini();
+      removerDigitando();
+
+      historico.push({ role: 'model', parts: [{ text: resposta }] });
+
+      if (resposta.includes('[CURRICULO_PRONTO]')) {
+        var jsonMatch = resposta.match(/\{[\s\S]*?\}/);
+        if (jsonMatch) {
+          var dados = JSON.parse(jsonMatch[0]);
+          mostrarCurriculo(dados);
+        }
+      } else {
+        adicionarMensagemIA(resposta);
+        bloquearInput(false);
+        document.getElementById('campoTexto').focus();
+      }
+
+    } catch (e) {
+      removerDigitando();
+      adicionarMensagemIA('Erro: ' + e.message);
+      bloquearInput(false);
+      console.error(e);
+    }
+  }
+
+  async function chamarGemini(tentativa) {
+    tentativa = tentativa || 1;
+    try {
+      var response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: historico,
+        config: {
+          systemInstruction: PROMPT_SISTEMA,
+          temperature: 0.75,
+          maxOutputTokens: 600
+        }
+      });
+      return response.text.trim();
+    } catch (e) {
+      if ((e.status === 429 || (e.message && e.message.includes('429'))) && tentativa < 4) {
+        await new Promise(function(r) { setTimeout(r, tentativa * 3000); });
+        return chamarGemini(tentativa + 1);
+      }
+      throw e;
+    }
+  }
+
+  function mostrarCurriculo(dados) {
+    document.getElementById('cvNome').textContent        = dados.nome        || '—';
+    document.getElementById('cvArea').textContent        = dados.area        || '—';
+    document.getElementById('cvExperiencia').textContent = dados.experiencia  || 'Sem experiência anterior';
+    document.getElementById('cvHabilidades').textContent = dados.habilidades  || '—';
+    document.getElementById('cvPerfil').textContent      = dados.perfil       || '—';
+
+    var semExp = dados.semExperiencia === true || dados.semExperiencia === 'true';
+    if (dados.area) localStorage.setItem('cv_area', dados.area);
+    localStorage.setItem('cv_semexp', semExp ? '1' : '0');
+    localStorage.setItem('cv_nome', dados.nome || '');
+    localStorage.setItem('cv_curriculo_ok', '1');
+
+    if (usuarioId) {
+      localStorage.setItem('cv_user_' + usuarioId, JSON.stringify({
+        curriculo_ok: true,
+        area: dados.area || '',
+        semExperiencia: semExp,
+        nome: dados.nome || ''
+      }));
+    }
+
+    document.getElementById('chatArea').style.display    = 'none';
+    document.getElementById('inputArea').style.display   = 'none';
+    var tela = document.getElementById('curriculoScreen');
+    tela.style.display = 'flex';
+    tela.scrollTop = 0;
+  }
+
+  function recomecar() {
+    historico = [];
+    document.getElementById('chatArea').innerHTML = '';
+    document.getElementById('curriculoScreen').style.display = 'none';
+    document.getElementById('chatArea').style.display = 'flex';
+    document.getElementById('inputArea').style.display = 'flex';
+    bloquearInput(false);
+    iniciarConversa();
+  }
+
+  async function iniciarConversa() {
+    bloquearInput(true);
+
+    var area = document.getElementById('chatArea');
+    area.appendChild(criarDigitando());
+
+    historico.push({ role: 'user', parts: [{ text: 'Olá, quero montar meu currículo.' }] });
+
+    try {
+      var resposta = await chamarGemini();
+      removerDigitando();
+      historico.push({ role: 'model', parts: [{ text: resposta }] });
+      adicionarMensagemIA(resposta);
+    } catch (e) {
+      removerDigitando();
+      var fallback = 'Olá! Vou te ajudar a montar seu currículo com algumas perguntas simples. Para começar, qual é o seu nome completo?';
+      historico.push({ role: 'model', parts: [{ text: fallback }] });
+      adicionarMensagemIA(fallback);
+    }
+
+    bloquearInput(false);
+    document.getElementById('campoTexto').focus();
+  }
+
+  window.entrar = entrar;
+  window.enviar = enviar;
+  window.teclaEnter = teclaEnter;
+  window.ajustarAltura = ajustarAltura;
+  window.recomecar = recomecar;
+
+  // Inicialização: verifica se veio do login com ID já definido
+  var idSalvo = localStorage.getItem('cv_user_id');
+  if (idSalvo) {
+    usuarioId = idSalvo;
+    document.getElementById('telaId').style.display = 'none';
+    var dadosSalvos = JSON.parse(localStorage.getItem('cv_user_' + idSalvo) || 'null');
+    if (dadosSalvos && dadosSalvos.curriculo_ok) {
+      localStorage.setItem('cv_area', dadosSalvos.area || '');
+      localStorage.setItem('cv_semexp', dadosSalvos.semExperiencia ? '1' : '0');
+      localStorage.setItem('cv_nome', dadosSalvos.nome || '');
+      localStorage.setItem('cv_curriculo_ok', '1');
+      mostrarCurriculo(dadosSalvos);
+    } else {
+      document.getElementById('chatArea').style.display = 'flex';
+      document.getElementById('inputArea').style.display = 'flex';
+      iniciarConversa();
+    }
+  }
+</script>
 
 </body>
 </html>

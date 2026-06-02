@@ -74,14 +74,15 @@
   <script>
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      const id    = document.getElementById('cpfEmail').value.trim();
-      const senha = document.getElementById('senha').value;
+      var id    = document.getElementById('cpfEmail').value.trim();
+      var senha = document.getElementById('senha').value;
       if (!id || !senha) {
         document.getElementById('erroLogin').style.display = 'flex';
         return;
       }
       document.getElementById('erroLogin').style.display = 'none';
-      window.location.href = 'vagas.html';
+      localStorage.setItem('cv_user_id', id);
+      window.location.href = 'curriculo.html';
     });
   </script>
 
