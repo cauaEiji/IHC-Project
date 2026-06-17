@@ -72,9 +72,9 @@
         <span class="logo-text">ConectaVaga</span>
       </a>
       <div class="header-user-info">
-        <a href="curriculo.html" class="btn btn-ghost btn-sm">Análise com IA</a>
-        <a href="candidaturas.html" class="btn btn-ghost btn-sm">Minhas candidaturas</a>
-        <a href="../index.html" class="btn btn-ghost btn-sm">Sair</a>
+        <a href="curriculo.html" class="btn btn-ghost btn-sm">🤖 Análise com IA</a>
+        <a href="candidaturas.html" class="btn btn-ghost btn-sm">📋 Minhas candidaturas</a>
+        <a href="../index.html" class="btn btn-ghost btn-sm">🚪 Sair</a>
       </div>
     </div>
   </header>
@@ -84,7 +84,7 @@
     <div class="filtro-bar">
       <div class="filtro-row">
         <select id="filtroArea">
-          <option value="">Todas as áreas</option>
+          <option value="">🎯 Todas as áreas</option>
           <option>Vendas e Comércio</option>
           <option>Administrativo</option>
           <option>Alimentação e Gastronomia</option>
@@ -98,10 +98,10 @@
           <option>Indústria e Produção</option>
           <option>Serviços Gerais</option>
         </select>
-        <input type="text" id="filtroCidade" placeholder="Filtrar por cidade...">
+        <input type="text" id="filtroCidade" placeholder="📍 Filtrar por cidade...">
         <label class="filtro-check">
           <input type="checkbox" id="filtroSemExp">
-          Sem experiência
+          ⭐ Sem experiência
         </label>
       </div>
       <p class="filtro-info" id="filtroInfo"></p>
@@ -110,7 +110,7 @@
     <div class="vagas-grid" id="vagasGrid"></div>
 
     <div class="sem-resultado" id="semResultados" style="display:none;">
-      <p style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Nenhuma vaga encontrada</p>
+      <p style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">🔍 Nenhuma vaga encontrada</p>
       <p class="text-muted">Tente outros filtros para encontrar mais oportunidades.</p>
       <button class="btn btn-outline mt-3" onclick="limparFiltros()">Limpar filtros</button>
     </div>
@@ -127,7 +127,7 @@
       </div>
 
       <button id="btnCandidatar" class="btn btn-primary btn-full btn-lg" onclick="confirmarCandidatura()">
-        Candidatar-se a esta vaga
+        🚀 Candidatar-se a esta vaga
       </button>
       <a href="candidaturas.html" id="linkMinhasCandidaturas" class="btn btn-outline btn-full mt-2" style="display:none;">
         Ver minhas candidaturas
@@ -139,7 +139,7 @@
   <!-- Tela 3: candidatura confirmada -->
   <div id="telaSucesso" style="display:none;flex:1;align-items:center;justify-content:center;">
     <div class="sucesso-wrap">
-      <div class="sucesso-icon">OK</div>
+      <div class="sucesso-icon" style="font-size:1.8rem;">🎉</div>
       <h2 style="font-size:1.6rem;font-weight:800;margin-bottom:10px;letter-spacing:-0.02em;">
         Candidatura enviada!
       </h2>
@@ -363,14 +363,14 @@
           '</div>' +
         '</div>' +
         '<div class="detalhe-info-grid">' +
-          '<div class="info-item"><div class="info-item-label">Contrato</div><div class="info-item-valor">' + vagaAtual.contrato + '</div></div>' +
-          '<div class="info-item"><div class="info-item-label">Turno</div><div class="info-item-valor">' + vagaAtual.turno + '</div></div>' +
-          '<div class="info-item"><div class="info-item-label">Salário</div><div class="info-item-valor sal-verde">' + vagaAtual.salario + '</div></div>' +
-          '<div class="info-item"><div class="info-item-label">Área</div><div class="info-item-valor">' + vagaAtual.area + '</div></div>' +
+          '<div class="info-item"><div class="info-item-label">📄 Contrato</div><div class="info-item-valor">' + vagaAtual.contrato + '</div></div>' +
+          '<div class="info-item"><div class="info-item-label">⏰ Turno</div><div class="info-item-valor">' + vagaAtual.turno + '</div></div>' +
+          '<div class="info-item"><div class="info-item-label">💰 Salário</div><div class="info-item-valor sal-verde">' + vagaAtual.salario + '</div></div>' +
+          '<div class="info-item"><div class="info-item-label">🏭 Área</div><div class="info-item-valor">' + vagaAtual.area + '</div></div>' +
         '</div>' +
-        '<div class="detalhe-sec"><div class="detalhe-sec-label">O que você vai fazer</div><div class="detalhe-sec-text">' + vagaAtual.descricao + '</div></div>' +
-        '<div class="detalhe-sec"><div class="detalhe-sec-label">Requisitos</div><div class="detalhe-sec-text">' + vagaAtual.requisitos + '</div></div>' +
-        '<div class="detalhe-sec"><div class="detalhe-sec-label">Benefícios</div><div class="detalhe-sec-text">' + vagaAtual.beneficios + '</div></div>';
+        '<div class="detalhe-sec"><div class="detalhe-sec-label">💼 O que você vai fazer</div><div class="detalhe-sec-text">' + vagaAtual.descricao + '</div></div>' +
+        '<div class="detalhe-sec"><div class="detalhe-sec-label">✅ Requisitos</div><div class="detalhe-sec-text">' + vagaAtual.requisitos + '</div></div>' +
+        '<div class="detalhe-sec"><div class="detalhe-sec-label">🎁 Benefícios</div><div class="detalhe-sec-text">' + vagaAtual.beneficios + '</div></div>';
 
       document.getElementById('jaCandidatou').style.display   = jaFez ? 'flex' : 'none';
       document.getElementById('btnCandidatar').style.display   = jaFez ? 'none' : 'block';
@@ -422,11 +422,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      if (!localStorage.getItem('cv_curriculo_ok')) {
-        window.location.href = 'curriculo.html';
-        return;
-      }
-
       var areaUsuario = localStorage.getItem('cv_area') || '';
       var semExp      = localStorage.getItem('cv_semexp') === '1';
       var nomeUsuario = localStorage.getItem('cv_nome') || '';

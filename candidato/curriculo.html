@@ -212,39 +212,6 @@
       .msg-balao { font-size: 0.975rem; }
     }
 
-    /* Tela de identificação */
-    .id-screen {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px 20px;
-    }
-    .id-box {
-      background: #fff;
-      border-radius: 20px;
-      padding: 32px 28px;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 4px 24px rgba(79,70,229,0.10);
-      text-align: center;
-    }
-    .id-box-icon {
-      width: 60px; height: 60px; border-radius: 16px;
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      color: #fff; font-weight: 800; font-size: 0.85rem;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 18px;
-    }
-    .id-box h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; }
-    .id-box p  { font-size: 0.9rem; color: #64748B; margin-bottom: 22px; line-height: 1.5; }
-    .id-input {
-      width: 100%; border: 1.5px solid #E2E8F0; border-radius: 12px;
-      padding: 13px 16px; font-size: 1rem; font-family: inherit;
-      color: #0F172A; outline: none; box-sizing: border-box;
-      margin-bottom: 14px; transition: border-color 0.15s;
-    }
-    .id-input:focus { border-color: #7C3AED; }
   </style>
 </head>
 <body>
@@ -259,23 +226,6 @@
       <div class="chat-header-sub" id="headerSub">Vou te ajudar a montar seu currículo</div>
     </div>
   </header>
-
-  <!-- Tela de identificação -->
-  <div class="id-screen" id="telaId">
-    <div class="id-box">
-      <div class="id-box-icon">CV</div>
-      <h2>Olá! Vamos começar?</h2>
-      <p>Informe seu e-mail ou CPF para continuarmos.<br>Se já preencheu o currículo antes, vamos te levar direto às vagas.</p>
-      <input
-        type="text"
-        id="campoId"
-        class="id-input"
-        placeholder="seu@email.com ou 000.000.000-00"
-        onkeydown="if(event.key==='Enter') entrar()"
-      />
-      <button class="btn btn-primary btn-full" onclick="entrar()">Continuar</button>
-    </div>
-  </div>
 
   <!-- Tela de chat -->
   <div class="chat-area" id="chatArea" style="display:none;"></div>
@@ -302,42 +252,50 @@
     <div class="curriculo-box">
 
       <div class="curriculo-ok">
-        <div class="curriculo-ok-icon">OK</div>
+        <div class="curriculo-ok-icon" style="font-size:1.8rem;">✅</div>
         <h2>Currículo pronto!</h2>
         <p>Criado com base nas suas respostas. Você pode usá-lo para se candidatar às vagas.</p>
       </div>
 
-      <div class="curriculo-secao">
-        <div class="curriculo-secao-label">Nome</div>
+      <div class="curriculo-secao" id="cvSecaoNome">
+        <div class="curriculo-secao-label">👤 Nome</div>
         <div class="curriculo-nome-grande" id="cvNome"></div>
       </div>
 
+      <div class="curriculo-secao" id="cvSecaoEscolaridade">
+        <div class="curriculo-secao-label">🎓 Escolaridade</div>
+        <div class="curriculo-secao-texto" id="cvEscolaridade"></div>
+      </div>
+
       <div class="curriculo-secao">
-        <div class="curriculo-secao-label">Área de interesse</div>
+        <div class="curriculo-secao-label">🎯 Área de interesse</div>
         <div class="curriculo-secao-texto" id="cvArea"></div>
       </div>
 
       <div class="curriculo-secao">
-        <div class="curriculo-secao-label">Experiência</div>
+        <div class="curriculo-secao-label">💼 Experiência</div>
         <div class="curriculo-secao-texto" id="cvExperiencia"></div>
       </div>
 
       <div class="curriculo-secao">
-        <div class="curriculo-secao-label">Habilidades</div>
+        <div class="curriculo-secao-label">⭐ Habilidades</div>
         <div class="curriculo-secao-texto" id="cvHabilidades"></div>
       </div>
 
       <div class="curriculo-secao" style="border-left: 3px solid #7C3AED;">
-        <div class="curriculo-secao-label">Perfil profissional (gerado pela IA)</div>
+        <div class="curriculo-secao-label">🤖 Perfil profissional (gerado pela IA)</div>
         <div class="curriculo-secao-texto" id="cvPerfil"></div>
       </div>
 
       <div class="curriculo-acoes">
         <a href="vagas.html" class="btn btn-primary btn-full btn-lg">
-          Ver vagas para mim
+          🔍 Ver vagas para mim
         </a>
+        <button class="btn btn-secondary btn-full" onclick="baixarCurriculo()">
+          ⬇ Baixar / Imprimir currículo
+        </button>
         <button class="btn btn-outline btn-full" onclick="recomecar()">
-          Montar de novo
+          🔄 Montar de novo
         </button>
       </div>
 
@@ -346,17 +304,9 @@
 
 </div>
 
-<script type="module">
-  import { GoogleGenAI } from 'https://esm.run/@google/genai';
-
-  var ai = new GoogleGenAI({ apiKey: window.GEMINI_API_KEY });
-
-  var AREAS_VALIDAS = [
-    'Vendas e Comércio', 'Administrativo', 'Alimentação e Gastronomia',
-    'Limpeza e Conservação', 'Logística e Transporte', 'Construção Civil',
-    'Saúde e Cuidados', 'Educação', 'Segurança', 'Tecnologia',
-    'Indústria e Produção', 'Serviços Gerais'
-  ];
+<script>
+  // Usa fetch() direto para a API REST do Gemini — sem import, funciona em file:// e qualquer servidor
+  var GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=';
 
   var PROMPT_SISTEMA =
     'Você é um assistente muito simpático e paciente do ConectaVaga, um site de empregos brasileiro. ' +
@@ -367,13 +317,19 @@
     '- Faça APENAS UMA pergunta por mensagem\n' +
     '- Seja encorajador, use frases como "Ótimo!", "Muito bem!", "Perfeito!"\n' +
     '- Evite palavras difíceis ou técnicas\n' +
-    '- Colete exatamente estas 4 informações, nesta ordem:\n' +
+    '- Se a pessoa não entender uma pergunta, explique de forma ainda mais simples\n' +
+    '- Colete exatamente estas 5 informações, nesta ordem:\n' +
     '  1. Nome completo\n' +
-    '  2. Área de trabalho desejada (dê exemplos: vendas, limpeza, cozinha, escritório, etc.)\n' +
-    '  3. Se tem experiência de trabalho anterior — se sim, peça para contar brevemente; se não, registre como sem experiência\n' +
-    '  4. O que sabe fazer bem (habilidades, pontos fortes)\n' +
-    '\nApós receber as 4 informações, responda APENAS com este JSON seguido de [CURRICULO_PRONTO], sem mais nada:\n' +
-    '{"nome":"...","area":"UMA das opções: Vendas e Comércio | Administrativo | Alimentação e Gastronomia | Limpeza e Conservação | Logística e Transporte | Construção Civil | Saúde e Cuidados | Educação | Segurança | Tecnologia | Indústria e Produção | Serviços Gerais","semExperiencia":true ou false,"experiencia":"...","habilidades":"...","perfil":"frase de 2 linhas em tom profissional"}\n' +
+    '  2. Escolaridade — apresente estas opções numeradas e peça para a pessoa digitar o número:\n' +
+    '     1 — Não estudei\n' +
+    '     2 — Ensino Fundamental (até o 9º ano)\n' +
+    '     3 — Ensino Médio completo (colegial)\n' +
+    '     4 — Ensino Superior (faculdade)\n' +
+    '  3. Área de trabalho desejada (dê exemplos concretos: vendas, limpeza, cozinha, escritório, construção, etc.)\n' +
+    '  4. Se tem experiência de trabalho anterior — se sim, peça para contar brevemente; se não, registre como sem experiência\n' +
+    '  5. O que sabe fazer bem (habilidades e pontos fortes — incentive mesmo que seja pouco)\n' +
+    '\nApós receber as 5 informações, responda APENAS com este JSON seguido de [CURRICULO_PRONTO], sem mais nada:\n' +
+    '{"nome":"...","escolaridade":"Não estudei | Ensino Fundamental | Ensino Médio | Ensino Superior","area":"UMA das opções: Vendas e Comércio | Administrativo | Alimentação e Gastronomia | Limpeza e Conservação | Logística e Transporte | Construção Civil | Saúde e Cuidados | Educação | Segurança | Tecnologia | Indústria e Produção | Serviços Gerais","semExperiencia":true ou false,"experiencia":"...","habilidades":"...","perfil":"frase de 2 linhas em tom profissional e acolhedor"}\n' +
     '[CURRICULO_PRONTO]';
 
   var historico = [];
@@ -383,9 +339,10 @@
   function criarMensagemIA(texto) {
     var wrap = document.createElement('div');
     wrap.className = 'msg-wrap ia';
+    var textoHtml = texto.replace(/\n/g, '<br>');
     wrap.innerHTML =
       '<div class="msg-avatar">IA</div>' +
-      '<div class="msg-balao">' + texto + '</div>';
+      '<div class="msg-balao">' + textoHtml + '</div>';
     return wrap;
   }
 
@@ -426,28 +383,6 @@
     bloqueado = sim;
     document.getElementById('campoTexto').disabled = sim;
     document.getElementById('btnEnviar').disabled = sim;
-  }
-
-  function entrar() {
-    var id = document.getElementById('campoId').value.trim();
-    if (!id) return;
-    usuarioId = id;
-
-    document.getElementById('telaId').style.display = 'none';
-
-    var dados = JSON.parse(localStorage.getItem('cv_user_' + id) || 'null');
-    if (dados && dados.curriculo_ok) {
-      localStorage.setItem('cv_area', dados.area || '');
-      localStorage.setItem('cv_semexp', dados.semExperiencia ? '1' : '0');
-      localStorage.setItem('cv_nome', dados.nome || '');
-      localStorage.setItem('cv_curriculo_ok', '1');
-      mostrarCurriculo(dados);
-      return;
-    }
-
-    document.getElementById('chatArea').style.display = 'flex';
-    document.getElementById('inputArea').style.display = 'flex';
-    iniciarConversa();
   }
 
   function ajustarAltura(el) {
@@ -510,18 +445,32 @@
   async function chamarGemini(tentativa) {
     tentativa = tentativa || 1;
     try {
-      var response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+      var body = {
         contents: historico,
-        config: {
-          systemInstruction: PROMPT_SISTEMA,
-          temperature: 0.75,
-          maxOutputTokens: 600
-        }
+        systemInstruction: { parts: [{ text: PROMPT_SISTEMA }] },
+        generationConfig: { temperature: 0.75, maxOutputTokens: 700 }
+      };
+      var controller = new AbortController();
+      var timer = setTimeout(function() { controller.abort(); }, 20000);
+      var resp = await fetch(GEMINI_URL + window.GEMINI_API_KEY, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        signal: controller.signal
       });
-      return response.text.trim();
+      clearTimeout(timer);
+      if (resp.status === 429 && tentativa < 4) {
+        await new Promise(function(r) { setTimeout(r, tentativa * 3000); });
+        return chamarGemini(tentativa + 1);
+      }
+      if (!resp.ok) {
+        var err = await resp.json().catch(function() { return {}; });
+        throw new Error((err.error && err.error.message) || ('HTTP ' + resp.status));
+      }
+      var data = await resp.json();
+      return data.candidates[0].content.parts[0].text.trim();
     } catch (e) {
-      if ((e.status === 429 || (e.message && e.message.includes('429'))) && tentativa < 4) {
+      if (e.message && e.message.includes('429') && tentativa < 4) {
         await new Promise(function(r) { setTimeout(r, tentativa * 3000); });
         return chamarGemini(tentativa + 1);
       }
@@ -530,24 +479,33 @@
   }
 
   function mostrarCurriculo(dados) {
-    document.getElementById('cvNome').textContent        = dados.nome        || '—';
-    document.getElementById('cvArea').textContent        = dados.area        || '—';
-    document.getElementById('cvExperiencia').textContent = dados.experiencia  || 'Sem experiência anterior';
-    document.getElementById('cvHabilidades').textContent = dados.habilidades  || '—';
-    document.getElementById('cvPerfil').textContent      = dados.perfil       || '—';
+    document.getElementById('cvNome').textContent         = dados.nome         || '—';
+    document.getElementById('cvEscolaridade').textContent = dados.escolaridade  || '—';
+    document.getElementById('cvArea').textContent         = dados.area          || '—';
+    document.getElementById('cvExperiencia').textContent  = dados.experiencia   || 'Sem experiência anterior';
+    document.getElementById('cvHabilidades').textContent  = dados.habilidades   || '—';
+    document.getElementById('cvPerfil').textContent       = dados.perfil        || '—';
 
     var semExp = dados.semExperiencia === true || dados.semExperiencia === 'true';
-    if (dados.area) localStorage.setItem('cv_area', dados.area);
-    localStorage.setItem('cv_semexp', semExp ? '1' : '0');
-    localStorage.setItem('cv_nome', dados.nome || '');
+    if (dados.area)         localStorage.setItem('cv_area',         dados.area);
+    if (dados.escolaridade) localStorage.setItem('cv_escolaridade', dados.escolaridade);
+    if (dados.experiencia)  localStorage.setItem('cv_experiencia',  dados.experiencia);
+    if (dados.habilidades)  localStorage.setItem('cv_habilidades',  dados.habilidades);
+    if (dados.perfil)       localStorage.setItem('cv_perfil',       dados.perfil);
+    localStorage.setItem('cv_semexp',       semExp ? '1' : '0');
+    localStorage.setItem('cv_nome',         dados.nome || '');
     localStorage.setItem('cv_curriculo_ok', '1');
 
     if (usuarioId) {
       localStorage.setItem('cv_user_' + usuarioId, JSON.stringify({
-        curriculo_ok: true,
-        area: dados.area || '',
+        curriculo_ok:   true,
+        nome:          dados.nome          || '',
+        escolaridade:  dados.escolaridade  || '',
+        area:          dados.area          || '',
         semExperiencia: semExp,
-        nome: dados.nome || ''
+        experiencia:   dados.experiencia   || '',
+        habilidades:   dados.habilidades   || '',
+        perfil:        dados.perfil        || ''
       }));
     }
 
@@ -556,6 +514,47 @@
     var tela = document.getElementById('curriculoScreen');
     tela.style.display = 'flex';
     tela.scrollTop = 0;
+  }
+
+  function baixarCurriculo() {
+    var nome         = document.getElementById('cvNome').textContent;
+    var escolaridade = document.getElementById('cvEscolaridade').textContent;
+    var area         = document.getElementById('cvArea').textContent;
+    var experiencia  = document.getElementById('cvExperiencia').textContent;
+    var habilidades  = document.getElementById('cvHabilidades').textContent;
+    var perfil       = document.getElementById('cvPerfil').textContent;
+
+    var html =
+      '<!DOCTYPE html>' +
+      '<html lang="pt-BR"><head>' +
+      '<meta charset="UTF-8">' +
+      '<title>Curriculo - ' + nome + '</title>' +
+      '<style>' +
+      'body{font-family:Arial,sans-serif;font-size:14px;color:#111;padding:32px;max-width:600px;margin:0 auto}' +
+      'h1{font-size:22px;margin-bottom:4px}' +
+      '.sub{color:#666;font-size:13px;margin-bottom:24px}' +
+      '.secao{margin-bottom:18px;border-top:1px solid #ddd;padding-top:14px}' +
+      '.label{font-size:10px;font-weight:700;text-transform:uppercase;color:#7C3AED;margin-bottom:4px}' +
+      '.destaque{background:#F5F3FF;border-left:3px solid #7C3AED;padding:10px 14px;border-radius:6px}' +
+      '@media print{body{padding:20px}}' +
+      '<\/style>' +
+      '<\/head><body>' +
+      '<h1>' + nome + '<\/h1>' +
+      '<p class="sub">Curriculo gerado pelo ConectaVaga<\/p>' +
+      '<div class="secao"><div class="label">Escolaridade<\/div><p>' + escolaridade + '<\/p><\/div>' +
+      '<div class="secao"><div class="label">Area de interesse<\/div><p>' + area + '<\/p><\/div>' +
+      '<div class="secao"><div class="label">Experiencia<\/div><p>' + experiencia + '<\/p><\/div>' +
+      '<div class="secao"><div class="label">Habilidades<\/div><p>' + habilidades + '<\/p><\/div>' +
+      '<div class="secao"><div class="label">Perfil profissional<\/div><div class="destaque">' + perfil + '<\/div><\/div>' +
+      '<\/body><\/html>';
+
+    var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'curriculo.html';
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   function recomecar() {
@@ -568,47 +567,36 @@
     iniciarConversa();
   }
 
-  async function iniciarConversa() {
-    bloquearInput(true);
+  function iniciarConversa() {
+    // Primeira mensagem local — resposta imediata sem depender da API
+    var textoPlano = 'Olá! Que bom ter você aqui!\n\nVou te ajudar a montar seu currículo de um jeito simples. São só 5 perguntinhas rápidas — pode responder com calma!\n\nPara começar: qual é o seu nome completo?';
+    var textoHtml  = 'Olá! Que bom ter você aqui!<br><br>Vou te ajudar a montar seu currículo de um jeito simples. São só <strong>5 perguntinhas rápidas</strong> — pode responder com calma!<br><br>Para começar: qual é o seu <strong>nome completo</strong>?';
+
+    // Adiciona ao histórico como turno user → model para o Gemini continuar a partir daqui
+    historico.push({ role: 'user',  parts: [{ text: 'Olá, quero montar meu currículo.' }] });
+    historico.push({ role: 'model', parts: [{ text: textoPlano }] });
 
     var area = document.getElementById('chatArea');
-    area.appendChild(criarDigitando());
-
-    historico.push({ role: 'user', parts: [{ text: 'Olá, quero montar meu currículo.' }] });
-
-    try {
-      var resposta = await chamarGemini();
-      removerDigitando();
-      historico.push({ role: 'model', parts: [{ text: resposta }] });
-      adicionarMensagemIA(resposta);
-    } catch (e) {
-      removerDigitando();
-      var fallback = 'Olá! Vou te ajudar a montar seu currículo com algumas perguntas simples. Para começar, qual é o seu nome completo?';
-      historico.push({ role: 'model', parts: [{ text: fallback }] });
-      adicionarMensagemIA(fallback);
-    }
+    var wrap = document.createElement('div');
+    wrap.className = 'msg-wrap ia';
+    wrap.innerHTML = '<div class="msg-avatar">IA</div><div class="msg-balao">' + textoHtml + '</div>';
+    area.appendChild(wrap);
+    scrollBaixo();
 
     bloquearInput(false);
     document.getElementById('campoTexto').focus();
   }
 
-  window.entrar = entrar;
-  window.enviar = enviar;
-  window.teclaEnter = teclaEnter;
-  window.ajustarAltura = ajustarAltura;
-  window.recomecar = recomecar;
-
-  // Inicialização: verifica se veio do login com ID já definido
+  // Inicialização — sempre usa a sessão salva; sem sessão redireciona para login
   var idSalvo = localStorage.getItem('cv_user_id');
-  if (idSalvo) {
+  if (!idSalvo) {
+    window.location.href = 'login.html';
+  } else {
     usuarioId = idSalvo;
-    document.getElementById('telaId').style.display = 'none';
-    var dadosSalvos = JSON.parse(localStorage.getItem('cv_user_' + idSalvo) || 'null');
+    var dadosSalvos = null;
+    try { dadosSalvos = JSON.parse(localStorage.getItem('cv_user_' + idSalvo) || 'null'); }
+    catch (e) { localStorage.removeItem('cv_user_' + idSalvo); }
     if (dadosSalvos && dadosSalvos.curriculo_ok) {
-      localStorage.setItem('cv_area', dadosSalvos.area || '');
-      localStorage.setItem('cv_semexp', dadosSalvos.semExperiencia ? '1' : '0');
-      localStorage.setItem('cv_nome', dadosSalvos.nome || '');
-      localStorage.setItem('cv_curriculo_ok', '1');
       mostrarCurriculo(dadosSalvos);
     } else {
       document.getElementById('chatArea').style.display = 'flex';

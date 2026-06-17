@@ -240,6 +240,17 @@ textarea.form-control { resize: vertical; min-height: 96px; }
 
 .form-hint  { font-size: 0.8rem; color: var(--text-muted); margin-top: 5px; line-height: 1.4; }
 
+/* Destaque de campo com erro (H9 — Nielsen) */
+.campo-erro {
+  border-color: var(--danger) !important;
+  background: var(--danger-bg) !important;
+  box-shadow: 0 0 0 3px rgba(220,38,38,0.12) !important;
+}
+.campo-erro:focus {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px rgba(220,38,38,0.18) !important;
+}
+
 .form-row   { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
 .form-row-3 { display: grid; gap: 14px; grid-template-columns: 1fr 1fr 1fr; }
 

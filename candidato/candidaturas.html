@@ -39,7 +39,7 @@
     <div style="max-width:680px;margin:0 auto;">
 
       <h1 style="font-size:1.5rem;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;">
-        Minhas candidaturas
+        📋 Minhas candidaturas
       </h1>
       <p class="text-muted mb-4" style="font-size:0.9rem;">
         Acompanhe aqui as vagas para as quais você se candidatou.
@@ -48,7 +48,7 @@
       <div id="listaCandidaturas" class="cands-lista"></div>
 
       <div id="semCandidaturas" class="vazio-wrap" style="display:none;">
-        <div class="vazio-icon">C</div>
+        <div class="vazio-icon" style="font-size:1.8rem;">📭</div>
         <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;">Nenhuma candidatura ainda</h2>
         <p class="text-muted" style="margin-bottom:24px;">
           Você ainda não se candidatou a nenhuma vaga.<br>
@@ -71,6 +71,12 @@
       'Aprovado':      'badge-success',
       'Não selecionado': 'badge-danger'
     };
+    var STATUS_EMOJI = {
+      'Em análise':    '⏳',
+      'Entrevista':    '🎤',
+      'Aprovado':      '✅',
+      'Não selecionado': '😕'
+    };
 
     function iniciais(titulo) {
       return titulo.split(' ').slice(0, 2).map(function(w) { return w[0]; }).join('').toUpperCase();
@@ -90,14 +96,15 @@
       var lista_inv = lista.slice().reverse();
       document.getElementById('listaCandidaturas').innerHTML = lista_inv.map(function(c) {
         var badge = STATUS_BADGE[c.status] || 'badge-warning';
+        var emoji = STATUS_EMOJI[c.status] || '⏳';
         return '<div class="cand-card">' +
           '<div class="cand-logo">' + iniciais(c.titulo) + '</div>' +
           '<div style="flex:1;min-width:0;">' +
             '<div class="cand-titulo">' + c.titulo + '</div>' +
             '<div class="cand-empresa">' + c.empresa + '</div>' +
-            '<div class="cand-meta">' + c.area + ' &middot; ' + c.cidade + ' &middot; Candidatado em ' + c.data + '</div>' +
+            '<div class="cand-meta">🎯 ' + c.area + ' &nbsp;📍 ' + c.cidade + ' &nbsp;📅 ' + c.data + '</div>' +
           '</div>' +
-          '<div class="cand-status"><span class="badge ' + badge + '">' + c.status + '</span></div>' +
+          '<div class="cand-status"><span class="badge ' + badge + '">' + emoji + ' ' + c.status + '</span></div>' +
         '</div>';
       }).join('');
     });
