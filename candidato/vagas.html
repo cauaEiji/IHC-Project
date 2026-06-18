@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vagas para você | ConectaVaga</title>
+  <title data-read>Vagas para você | ConectaVaga</title>
   <link rel="stylesheet" href="../css/style.css">
   <style>
     .filtro-bar { background:#fff; border-bottom:1px solid var(--border); padding:16px 20px; }
@@ -66,15 +66,15 @@
 
   <header class="header">
     <div class="header-inner">
-      <a href="../index.html" class="back-btn">← Início</a>
+      <a href="../index.html" class="back-btn" data-read>Início</a>
       <a href="../index.html" class="logo">
         <span class="logo-icon">&#9632;</span>
-        <span class="logo-text">ConectaVaga</span>
+        <span class="logo-text" data-read>ConectaVaga</span>
       </a>
       <div class="header-user-info">
-        <a href="curriculo.html" class="btn btn-ghost btn-sm">🤖 Análise com IA</a>
-        <a href="candidaturas.html" class="btn btn-ghost btn-sm">📋 Minhas candidaturas</a>
-        <a href="../index.html" class="btn btn-ghost btn-sm">🚪 Sair</a>
+        <a href="curriculo.html" class="btn btn-ghost btn-sm" data-read>Análise com IA</a>
+        <a href="candidaturas.html" class="btn btn-ghost btn-sm" data-read>Minhas candidaturas</a>
+        <a href="../index.html" class="btn btn-ghost btn-sm" data-read>Sair</a>
       </div>
     </div>
   </header>
@@ -84,24 +84,24 @@
     <div class="filtro-bar">
       <div class="filtro-row">
         <select id="filtroArea">
-          <option value="">🎯 Todas as áreas</option>
-          <option>Vendas e Comércio</option>
-          <option>Administrativo</option>
-          <option>Alimentação e Gastronomia</option>
-          <option>Limpeza e Conservação</option>
-          <option>Logística e Transporte</option>
-          <option>Construção Civil</option>
-          <option>Saúde e Cuidados</option>
-          <option>Educação</option>
-          <option>Segurança</option>
-          <option>Tecnologia</option>
-          <option>Indústria e Produção</option>
-          <option>Serviços Gerais</option>
+          <option value="" data-read>Todas as áreas</option>
+          <option data-read>Vendas e Comércio</option>
+          <option data-read>Administrativo</option>
+          <option data-read>Alimentação e Gastronomia</option>
+          <option data-read>Limpeza e Conservação</option>
+          <option data-read>Logística e Transporte</option>
+          <option data-read>Construção Civil</option>
+          <option data-read>Saúde e Cuidados</option>
+          <option data-read>Educação</option>
+          <option data-read>Segurança</option>
+          <option data-read>Tecnologia</option>
+          <option data-read>Indústria e Produção</option>
+          <option data-read>Serviços Gerais</option>
         </select>
         <input type="text" id="filtroCidade" placeholder="📍 Filtrar por cidade...">
         <label class="filtro-check">
-          <input type="checkbox" id="filtroSemExp">
-          ⭐ Sem experiência
+          <input type="checkbox" id="filtroSemExp" data-read>
+          Sem experiência
         </label>
       </div>
       <p class="filtro-info" id="filtroInfo"></p>
@@ -110,29 +110,29 @@
     <div class="vagas-grid" id="vagasGrid"></div>
 
     <div class="sem-resultado" id="semResultados" style="display:none;">
-      <p style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">🔍 Nenhuma vaga encontrada</p>
-      <p class="text-muted">Tente outros filtros para encontrar mais oportunidades.</p>
-      <button class="btn btn-outline mt-3" onclick="limparFiltros()">Limpar filtros</button>
+      <p style="font-size:1.1rem;font-weight:700;margin-bottom:8px;" data-read>Nenhuma vaga encontrada</p>
+      <p class="text-muted" data-read>Tente outros filtros para encontrar mais oportunidades.</p>
+      <button class="btn btn-outline mt-3" onclick="limparFiltros()" data-read>Limpar filtros</button>
     </div>
   </div>
 
   <!-- Tela 2: detalhe da vaga -->
   <div id="telaDetalhe" style="display:none;flex:1;">
     <div class="detalhe-wrap">
-      <button class="btn btn-outline btn-sm mb-4" onclick="voltarLista()">← Voltar às vagas</button>
+      <button class="btn btn-outline btn-sm mb-4" onclick="voltarLista()" data-read>Voltar às vagas</button>
       <div id="detalheConteudo"></div>
 
       <div id="jaCandidatou" class="alert alert-success mb-3" style="display:none;">
-        <span>Você já se candidatou a esta vaga.</span>
+        <span data-read>Você já se candidatou a esta vaga.</span>
       </div>
 
-      <button id="btnCandidatar" class="btn btn-primary btn-full btn-lg" onclick="confirmarCandidatura()">
-        🚀 Candidatar-se a esta vaga
+      <button id="btnCandidatar" class="btn btn-primary btn-full btn-lg" onclick="confirmarCandidatura()" data-read>
+        Candidatar-se a esta vaga
       </button>
-      <a href="candidaturas.html" id="linkMinhasCandidaturas" class="btn btn-outline btn-full mt-2" style="display:none;">
+      <a href="candidaturas.html" id="linkMinhasCandidaturas" class="btn btn-outline btn-full mt-2" style="display:none;" data-read>
         Ver minhas candidaturas
       </a>
-      <button class="btn btn-outline btn-full mt-2" onclick="voltarLista()">Ver outras vagas</button>
+      <button class="btn btn-outline btn-full mt-2" onclick="voltarLista()" data-read>Ver outras vagas</button>
     </div>
   </div>
 
@@ -140,22 +140,22 @@
   <div id="telaSucesso" style="display:none;flex:1;align-items:center;justify-content:center;">
     <div class="sucesso-wrap">
       <div class="sucesso-icon" style="font-size:1.8rem;">🎉</div>
-      <h2 style="font-size:1.6rem;font-weight:800;margin-bottom:10px;letter-spacing:-0.02em;">
+      <h2 style="font-size:1.6rem;font-weight:800;margin-bottom:10px;letter-spacing:-0.02em;" data-read>
         Candidatura enviada!
       </h2>
-      <p class="text-muted" style="margin-bottom:28px;">
+      <p class="text-muted" style="margin-bottom:28px;" data-read>
         Sua candidatura foi registrada com sucesso.
         Assim que a empresa analisar seu perfil, você poderá acompanhar aqui.
       </p>
       <div style="display:flex;flex-direction:column;gap:12px;">
-        <a href="candidaturas.html" class="btn btn-primary btn-lg">Ver minhas candidaturas</a>
-        <button class="btn btn-outline btn-lg" onclick="voltarLista()">Ver mais vagas</button>
+        <a href="candidaturas.html" class="btn btn-primary btn-lg" data-read>Ver minhas candidaturas</a>
+        <button class="btn btn-outline btn-lg" onclick="voltarLista()" data-read>Ver mais vagas</button>
       </div>
     </div>
   </div>
 
   <footer class="footer">
-    <p>© 2024 ConectaVaga</p>
+    <p data-read>© 2024 ConectaVaga</p>
   </footer>
 
   <script>
@@ -449,6 +449,6 @@
       renderVagas();
     });
   </script>
-
+<script src="../script.js"></script>
 </body>
 </html>

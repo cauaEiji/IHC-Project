@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minhas Candidaturas | ConectaVaga</title>
+  <title data-read>Minhas Candidaturas | ConectaVaga</title>
   <link rel="stylesheet" href="../css/style.css">
   <style>
     .cand-card { background:#fff; border:1px solid var(--border); border-radius:var(--r-lg); padding:18px 20px; display:flex; gap:16px; align-items:flex-start; }
@@ -23,14 +23,14 @@
 
   <header class="header">
     <div class="header-inner">
-      <a href="vagas.html" class="back-btn">← Ver vagas</a>
+      <a href="vagas.html" class="back-btn" data-read>Ver vagas</a>
       <a href="../index.html" class="logo">
         <span class="logo-icon">&#9632;</span>
-        <span class="logo-text">ConectaVaga</span>
+        <span class="logo-text" data-read>ConectaVaga</span>
       </a>
       <div class="header-user-info">
         <span class="header-user-name" id="headerNome"></span>
-        <a href="../index.html" class="btn btn-ghost btn-sm">Sair</a>
+        <a href="../index.html" class="btn btn-ghost btn-sm" data-read>Sair</a>
       </div>
     </div>
   </header>
@@ -38,10 +38,10 @@
   <main style="flex:1;padding:24px 20px 56px;">
     <div style="max-width:680px;margin:0 auto;">
 
-      <h1 style="font-size:1.5rem;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;">
-        📋 Minhas candidaturas
+      <h1 style="font-size:1.5rem;font-weight:800;margin-bottom:4px;letter-spacing:-0.02em;" data-read>
+        Minhas candidaturas
       </h1>
-      <p class="text-muted mb-4" style="font-size:0.9rem;">
+      <p class="text-muted mb-4" style="font-size:0.9rem;" data-read>
         Acompanhe aqui as vagas para as quais você se candidatou.
       </p>
 
@@ -49,19 +49,19 @@
 
       <div id="semCandidaturas" class="vazio-wrap" style="display:none;">
         <div class="vazio-icon" style="font-size:1.8rem;">📭</div>
-        <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;">Nenhuma candidatura ainda</h2>
-        <p class="text-muted" style="margin-bottom:24px;">
+        <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;" data-read>Nenhuma candidatura ainda</h2>
+        <p class="text-muted" style="margin-bottom:24px;" data-read>
           Você ainda não se candidatou a nenhuma vaga.<br>
           Que tal procurar oportunidades agora?
         </p>
-        <a href="vagas.html" class="btn btn-primary btn-lg">Ver vagas disponíveis</a>
+        <a href="vagas.html" class="btn btn-primary btn-lg" data-read>Ver vagas disponíveis</a>
       </div>
 
     </div>
   </main>
 
   <footer class="footer">
-    <p>© 2024 ConectaVaga</p>
+    <p data-read>© 2024 ConectaVaga</p>
   </footer>
 
   <script>
@@ -109,6 +109,6 @@
       }).join('');
     });
   </script>
-
+<script src="../script.js"></script>
 </body>
 </html>

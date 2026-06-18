@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Monte seu Currículo | ConectaVaga</title>
+  <title data-read>Monte seu Currículo | ConectaVaga</title>
   <link rel="stylesheet" href="../css/style.css">
   <script src="../config.js"></script>
   <style>
@@ -222,8 +222,8 @@
     <a href="../index.html" class="chat-header-back">←</a>
     <div class="chat-avatar">IA</div>
     <div class="chat-header-info">
-      <div class="chat-header-nome">Assistente ConectaVaga</div>
-      <div class="chat-header-sub" id="headerSub">Vou te ajudar a montar seu currículo</div>
+      <div class="chat-header-nome" data-read>Assistente ConectaVaga</div>
+      <div class="chat-header-sub" id="headerSub" data-read>Vou te ajudar a montar seu currículo</div>
     </div>
   </header>
 
@@ -253,49 +253,49 @@
 
       <div class="curriculo-ok">
         <div class="curriculo-ok-icon" style="font-size:1.8rem;">✅</div>
-        <h2>Currículo pronto!</h2>
-        <p>Criado com base nas suas respostas. Você pode usá-lo para se candidatar às vagas.</p>
+        <h2 data-read>Currículo pronto!</h2>
+        <p data-read>Criado com base nas suas respostas. Você pode usá-lo para se candidatar às vagas.</p>
       </div>
 
       <div class="curriculo-secao" id="cvSecaoNome">
-        <div class="curriculo-secao-label">👤 Nome</div>
+        <div class="curriculo-secao-label" data-read>Nome</div>
         <div class="curriculo-nome-grande" id="cvNome"></div>
       </div>
 
       <div class="curriculo-secao" id="cvSecaoEscolaridade">
-        <div class="curriculo-secao-label">🎓 Escolaridade</div>
+        <div class="curriculo-secao-label" data-read>Escolaridade</div>
         <div class="curriculo-secao-texto" id="cvEscolaridade"></div>
       </div>
 
       <div class="curriculo-secao">
-        <div class="curriculo-secao-label">🎯 Área de interesse</div>
+        <div class="curriculo-secao-label" data-read>Área de interesse</div>
         <div class="curriculo-secao-texto" id="cvArea"></div>
       </div>
 
       <div class="curriculo-secao">
-        <div class="curriculo-secao-label">💼 Experiência</div>
+        <div class="curriculo-secao-label" data-read>Experiência</div>
         <div class="curriculo-secao-texto" id="cvExperiencia"></div>
       </div>
 
       <div class="curriculo-secao">
-        <div class="curriculo-secao-label">⭐ Habilidades</div>
+        <div class="curriculo-secao-label" data-read>Habilidades</div>
         <div class="curriculo-secao-texto" id="cvHabilidades"></div>
       </div>
 
       <div class="curriculo-secao" style="border-left: 3px solid #7C3AED;">
-        <div class="curriculo-secao-label">🤖 Perfil profissional (gerado pela IA)</div>
+        <div class="curriculo-secao-label" data-read>Perfil profissional (gerado pela IA)</div>
         <div class="curriculo-secao-texto" id="cvPerfil"></div>
       </div>
 
       <div class="curriculo-acoes">
-        <a href="vagas.html" class="btn btn-primary btn-full btn-lg">
-          🔍 Ver vagas para mim
+        <a href="vagas.html" class="btn btn-primary btn-full btn-lg" data-read>
+        Ver vagas para mim
         </a>
-        <button class="btn btn-secondary btn-full" onclick="baixarCurriculo()">
-          ⬇ Baixar / Imprimir currículo
+        <button class="btn btn-secondary btn-full" onclick="baixarCurriculo()" data-read>
+        Baixar / Imprimir currículo
         </button>
-        <button class="btn btn-outline btn-full" onclick="recomecar()">
-          🔄 Montar de novo
+        <button class="btn btn-outline btn-full" onclick="recomecar()" data-read>
+        Montar de novo
         </button>
       </div>
 
@@ -605,6 +605,6 @@
     }
   }
 </script>
-
+<script src="../script.js"></script>
 </body>
 </html>

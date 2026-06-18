@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu Perfil | ConectaVaga</title>
+  <title data-read>Meu Perfil | ConectaVaga</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
   <header class="header">
     <div class="header-inner">
-      <a href="vagas.html" class="back-btn">← Voltar às vagas</a>
+      <a href="vagas.html" class="back-btn" data-read>Voltar às vagas</a>
       <a href="../index.html" class="logo">
         <span class="logo-icon">&#9632;</span>
-        <span class="logo-text">ConectaVaga</span>
+        <span class="logo-text" data-read>ConectaVaga</span>
       </a>
       <div style="width:120px"></div>
     </div>
@@ -30,40 +30,40 @@
         display:flex;align-items:center;justify-content:center;
         margin:0 auto 14px;
       ">?</div>
-      <h1 id="nomeCompleto" style="font-size:1.5rem;margin-bottom:4px;">Carregando...</h1>
+      <h1 id="nomeCompleto" style="font-size:1.5rem;margin-bottom:4px;" data-read>Carregando...</h1>
       <p id="subTitulo" style="color:var(--text-muted);font-size:0.9rem;">—</p>
     </div>
 
     <!-- Alerta: currículo não criado -->
     <div id="alertaSemCurriculo" class="alert alert-warning mb-3" style="display:none;">
-      <span>⚠️ Você ainda não criou seu currículo. <a href="curriculo.html"><strong>🤖 Montar agora com a IA →</strong></a></span>
+      <span data-read>Você ainda não criou seu currículo. <a href="curriculo.html" data-read><strong>Montar agora com a IA →</strong></a></span>
     </div>
 
     <!-- Seções do perfil -->
     <div id="secoesPerfil">
 
       <div class="card mb-2">
-        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#7C3AED;margin-bottom:8px;">🎓 Escolaridade</div>
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#7C3AED;margin-bottom:8px;" data-read>Escolaridade</div>
         <div id="pEscolaridade" style="font-size:1rem;color:#0F172A;">—</div>
       </div>
 
       <div class="card mb-2">
-        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#7C3AED;margin-bottom:8px;">🎯 Área de interesse</div>
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#7C3AED;margin-bottom:8px;" data-read>Área de interesse</div>
         <div id="pArea" style="font-size:1rem;color:#0F172A;">—</div>
       </div>
 
       <div class="card mb-2">
-        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#7C3AED;margin-bottom:8px;">💼 Experiência</div>
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#7C3AED;margin-bottom:8px;" data-read>Experiência</div>
         <div id="pExperiencia" style="font-size:1rem;color:#0F172A;line-height:1.6;">—</div>
       </div>
 
       <div class="card mb-2">
-        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#7C3AED;margin-bottom:8px;">⭐ Habilidades</div>
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#7C3AED;margin-bottom:8px;" data-read>Habilidades</div>
         <div id="pHabilidades" style="font-size:1rem;color:#0F172A;line-height:1.6;">—</div>
       </div>
 
       <div class="card mb-2" style="border-left:3px solid #7C3AED;">
-        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#7C3AED;margin-bottom:8px;">🤖 Perfil profissional (gerado pela IA)</div>
+        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#7C3AED;margin-bottom:8px;" data-read>Perfil profissional (gerado pela IA)</div>
         <div id="pPerfil" style="font-size:1rem;color:#0F172A;line-height:1.6;font-style:italic;">—</div>
       </div>
 
@@ -71,17 +71,17 @@
 
     <!-- Ações -->
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:24px;">
-      <a href="curriculo.html" class="btn btn-primary btn-full btn-lg">
-        ✏️ Atualizar meu currículo com a IA
+      <a href="curriculo.html" class="btn btn-primary btn-full btn-lg" data-read>
+        Atualizar meu currículo com a IA
       </a>
-      <a href="vagas.html" class="btn btn-outline btn-full">
-        🔍 Ver vagas disponíveis
+      <a href="vagas.html" class="btn btn-outline btn-full" data-read>
+        Ver vagas disponíveis
       </a>
-      <a href="candidaturas.html" class="btn btn-outline btn-full">
-        📋 Minhas candidaturas
+      <a href="candidaturas.html" class="btn btn-outline btn-full" data-read>
+        Minhas candidaturas
       </a>
-      <button onclick="sair()" class="btn btn-full" style="color:var(--danger);border:1.5px solid var(--border);background:transparent;margin-top:8px;">
-        🚪 Sair da conta
+      <button onclick="sair()" class="btn btn-full" style="color:var(--danger);border:1.5px solid var(--border);background:transparent;margin-top:8px;" data-read>
+        Sair da conta
       </button>
     </div>
 
@@ -118,6 +118,6 @@
       document.getElementById('pPerfil').textContent        = dados.perfil        || localStorage.getItem('cv_perfil')       || '—';
     }
   </script>
-
+<script src="../script.js"></script>
 </body>
 </html>
