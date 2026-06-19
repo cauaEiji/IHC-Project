@@ -1,1 +1,1 @@
-var GEMINI_API_KEY = 'AQ.Ab8RN6JfBXyN0T8jsEi_13DKMCw_r_XliVNgf5YKBGHKBhoKiA';
+var GEMINI_API_KEY = 'AQ.Ab8RN6LajaI4bPgayoEmmwlov_K8b9eq_e9eoH-v6ieHKhXz2g';
